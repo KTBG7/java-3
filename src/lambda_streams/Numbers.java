@@ -253,6 +253,7 @@ class Numbers {
 
 }
 
+
 interface Actions1 {
     public boolean oneInt(int i);
 }
