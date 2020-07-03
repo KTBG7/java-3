@@ -1,6 +1,8 @@
 package lambda_streams;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class Animals {
     // This class will be using streams.
@@ -22,11 +24,11 @@ class Animals {
         addAnimal("lEOpArD");
         // ---------------------------------------
 
-        capsFirst(animals, true);
-        System.out.println(animals);
+        // capsFirst(animals, true);
+        // System.out.println(animals);
 
-        List<String> lowered = lowerFirst(animals, false);
-        System.out.println(lowered);
+        // List<String> lowered = lowerFirst(animals, false);
+        // System.out.println(lowered);
 
     }
 
@@ -39,9 +41,23 @@ class Animals {
         // return the animals out of the function. if it is false, create a copy of the
         // animals, perform your stream operations on the copy, and return the copy of
         // animals out of the function, WITHOUT modifying the original animals array.
-        for (int i = 0; i < animaList.size(); i++) {
-            if (mutate == true) {
-            }
+        List<String> newAnimalList = Arrays.asList();
+
+        for (String animal : animals) {
+            String newAnimal = animal;
+            newAnimal = animal.substring(0, 1).toUpperCase() + animal.substring(1).toLowerCase();
+            animal = newAnimal;
+            Stream<String> newAnimalCaps = Stream
+                    .of(animal.substring(0, 1).toUpperCase() + animal.substring(1).toLowerCase());
+            newAnimalList = Stream.concat(newAnimalList.stream(), newAnimalCaps).collect(Collectors.toList());
+            // newAnimal.add(animal.substring(0, 1).toUpperCase() +
+            // animal.substring(1).toLowerCase());
+            System.out.println(newAnimalList);
+        }
+        if (mutate == true) {
+            return animals;
+        } else if (mutate == false) {
+            return newAnimalList;
         }
         return animals;
     }
@@ -80,4 +96,8 @@ class Animals {
         return animals;
     }
 
+}
+
+interface Caps {
+    public String capitalize();
 }
