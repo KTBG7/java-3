@@ -1,7 +1,10 @@
 package lambda_streams;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class Numbers {
     static List<Integer> nums = Arrays.asList(10, 100, 1000, 5, 50, 500, 3, 30, 300, 7, 70, 700, 1, 10, 100, 25, 250,
@@ -38,6 +41,11 @@ class Numbers {
         added(nums);
         subtracted(nums);
         multipled(nums);
+        divided(nums);
+        findMax(nums);
+        findMin(nums);
+        compare(nums);
+        append(7);
     }
 
     static boolean isOdd(List<Integer> nums) {
@@ -136,53 +144,113 @@ class Numbers {
 
     static int multipled(List<Integer> nums) {
         // multiply all the elements in the list. and return the product.
-        Action lambdaMultiplied = () -> {
-            int product = 1;
-            for (int num : nums) {
-                if (product == 1) {
-                    product = num;
-                } else {
-                    product *= num;
-                }
-            }
-            return product;
+        // Action lambdaMultiplied = () -> {
+        //     int product = 1;
+        //     for (int num : nums) {
+        //         if (product == 1) {
+        //             product = num;
+        //         } else {
+        //             product *= num;
+        //         }
+        //     }
+        //     return product;
+        // };
+
+        //System.out.println(lambdaMultiplied.noInt());
+        BigInt lambdaMultiplied = () -> {
+            return nums.stream().map(BigInteger::valueOf).reduce(BigInteger.ONE, BigInteger::multiply);
         };
-        System.out.println(lambdaMultiplied.noInt());
+        System.out.println(lambdaMultiplied.big());
         return 0;
     }
 
-    static int divided() {
+    static int divided(List<Integer> nums) {
         // multiply all the elements in the list. and return the product.
+        Action lambdaDivided = () -> {
+                int divided = 1;
+                for (int num : nums) {
+                    if (divided == 1) {
+                        divided = num;
+                    } else {
+                        divided /= num;
+                    }
+                }
+                return divided;
+            };
+            System.out.println(lambdaDivided.noInt());
         return 0;
     }
 
-    static int findMax() {
+    static int findMax(List<Integer> nums) {
         // return the maximum value in the list.
+        Action lambdaFindMax= () -> {
+            int i = 0;
+        for (int num : nums){
+            if(i == 0){
+                i = num;
+            }else if(i < num){
+                i = num;
+            }
+        }return i;
+        };
+        System.out.println(lambdaFindMax.noInt());
         return 0;
     }
 
-    static int findMin() {
+    static int findMin(List<Integer> nums) {
         // return the minimum value in the list.
+        Action lambdaFindMin= () -> {
+            int i = 0;
+        for (int num : nums){
+            if(i == 0){
+                i = num;
+            }else if(i > num){
+                i = num;
+            }
+        }return i;
+        };
+        System.out.println(lambdaFindMin.noInt());
         return 0;
     }
 
-    static int compare(int i, int j) {
+    static int compare(List<Integer> nums) {
         // compare the values stored in the array at index position i and j.
         // if the value at i is greater, return 1. if the value at j is greater, return
         // -1. if the two values are equal, return 0.
+        Actions2 lambdaCompareAction = () -> {
+        int i = 0;
+        while (i < nums.size() - 2){
+            if(nums.get(i) > nums.get(i + 1)){
+                System.out.println(1);
+                i++;
+                
+            }else if (nums.get(i + 1) > nums.get(i)){
+                System.out.println(-1);
+                i++;
+            }else if(nums.get(i) == nums.get(i+1)){
+                System.out.println(0);
+            }
+        }
+        };
+        lambdaCompareAction.sysInt();
         return 0;
     }
 
     static int append(int n) {
         // add a new value to the values list. return that value after adding it to the
         // list.
+
+        Action lambdaAppend = () -> {
+            Stream<Integer> newStream = Stream.of(n); 
+            nums = Stream.concat(nums.stream(), newStream).collect(Collectors.toList());
+            System.out.println(nums);
+
+            return n;
+        };
+        lambdaAppend.noInt();
         return 0;
     }
 
-}
-
-interface Actions {
-    public int oneInt(int i);
 }
 
 interface Actions1 {
@@ -194,5 +262,8 @@ interface Action {
 }
 
 interface Actions2 {
-    public int twoInt(int i, int j);
+    public void sysInt();
+}
+interface BigInt{
+    public BigInteger big();
 }
